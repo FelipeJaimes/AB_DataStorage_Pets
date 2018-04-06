@@ -15,10 +15,13 @@
  */
 package com.example.android.pets;
 
+import android.content.ContentValues;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -28,6 +31,7 @@ import android.widget.EditText;
 import android.widget.Spinner;
 
 import com.example.android.pets.data.PetContract.PetEntry;
+import com.example.android.pets.data.PetDbHelper;
 
 public class EditorActivity extends AppCompatActivity {
 
@@ -41,6 +45,7 @@ public class EditorActivity extends AppCompatActivity {
      * 0 for unknown gender, 1 for male, 2 for female.
      */
     private int mGender = 0;
+    private PetDbHelper mDbHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +58,7 @@ public class EditorActivity extends AppCompatActivity {
         mGenderSpinner = (Spinner) findViewById(R.id.spinner_gender);
 
         setupSpinner();
+        mDbHelper = new PetDbHelper(this);
     }
 
     private void setupSpinner() {
@@ -87,6 +93,20 @@ public class EditorActivity extends AppCompatActivity {
         });
     }
 
+    private void insertPet() {
+        SQLiteDatabase db = mDbHelper.getReadableDatabase();
+        ContentValues values = new ContentValues();
+
+        values.put(PetEntry.COLUMN_PET_NAME, mNameEditText.getText().toString());
+        values.put(PetEntry.COLUMN_PET_BREED, mBreedEditText.getText().toString());
+        values.put(PetEntry.COLUMN_PET_GENDER, mGender);
+        values.put(PetEntry.COLUMN_PET_WEIGHT, Integer.parseInt(mWeightEditText.getText().toString()));
+
+        long newRowId = db.insert(PetEntry.TABLE_NAME, null, values);
+        Log.v("CatalogActivity", "New row ID= " + newRowId);
+
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_editor, menu);
@@ -98,6 +118,7 @@ public class EditorActivity extends AppCompatActivity {
 
         switch (item.getItemId()) {
             case R.id.action_save:
+                insertPet();
                 return true;
             case R.id.action_delete:
                 return true;
