@@ -9,7 +9,7 @@ import android.support.annotation.Nullable;
 
 public class PetProvider extends ContentProvider {
 
-    PetDbHelper mDbHelper;
+    private PetDbHelper mDbHelper;
 
     @Override
     public boolean onCreate() {
