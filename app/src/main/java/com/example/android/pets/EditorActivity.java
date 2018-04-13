@@ -95,14 +95,14 @@ public class EditorActivity extends AppCompatActivity {
     }
 
     private void insertPet() {
-        ContentValues contentValues = new ContentValues();
+        ContentValues values = new ContentValues();
 
-        contentValues.put(PetEntry.COLUMN_PET_NAME, mNameEditText.getText().toString().trim());
-        contentValues.put(PetEntry.COLUMN_PET_BREED, mBreedEditText.getText().toString().trim());
-        contentValues.put(PetEntry.COLUMN_PET_GENDER, mGender);
-        contentValues.put(PetEntry.COLUMN_PET_WEIGHT, Integer.parseInt(mWeightEditText.getText().toString()));
+        values.put(PetEntry.COLUMN_PET_NAME, mNameEditText.getText().toString().trim());
+        values.put(PetEntry.COLUMN_PET_BREED, mBreedEditText.getText().toString().trim());
+        values.put(PetEntry.COLUMN_PET_GENDER, mGender);
+        values.put(PetEntry.COLUMN_PET_WEIGHT, Integer.parseInt(mWeightEditText.getText().toString()));
 
-        getContentResolver().insert(PetEntry.CONTENT_URI, contentValues);
+        getContentResolver().insert(PetEntry.CONTENT_URI, values);
 
     }
 

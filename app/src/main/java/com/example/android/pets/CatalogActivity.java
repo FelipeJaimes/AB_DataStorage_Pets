@@ -116,13 +116,13 @@ public class CatalogActivity extends AppCompatActivity {
 
     private void insertPet() {
 
-        ContentValues contentValues = new ContentValues();
-        contentValues.put(PetEntry.COLUMN_PET_NAME, "Toto");
-        contentValues.put(PetEntry.COLUMN_PET_BREED, "Terrier");
-        contentValues.put(PetEntry.COLUMN_PET_GENDER, PetEntry.GENDER_MALE);
-        contentValues.put(PetEntry.COLUMN_PET_WEIGHT, 7);
+        ContentValues values = new ContentValues();
+        values.put(PetEntry.COLUMN_PET_NAME, "Toto");
+        values.put(PetEntry.COLUMN_PET_BREED, "Terrier");
+        values.put(PetEntry.COLUMN_PET_GENDER, PetEntry.GENDER_MALE);
+        values.put(PetEntry.COLUMN_PET_WEIGHT, 7);
 
-        getContentResolver().insert(PetEntry.CONTENT_URI, contentValues);
+        getContentResolver().insert(PetEntry.CONTENT_URI, values);
 
     }
 
