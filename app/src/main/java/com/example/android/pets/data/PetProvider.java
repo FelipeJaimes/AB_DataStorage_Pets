@@ -9,7 +9,10 @@ import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.util.Log;
+import android.widget.Toast;
 
+import com.example.android.pets.R;
 import com.example.android.pets.data.PetContract.PetEntry;
 
 public class PetProvider extends ContentProvider {
@@ -50,7 +53,7 @@ public class PetProvider extends ContentProvider {
                 cursor = database.query(PetEntry.TABLE_NAME, projection, selection, selectionArgs, null, null, sortOrder);
                 break;
             default:
-                throw  new IllegalArgumentException("Cannot query unknown URI " + uri);
+                throw new IllegalArgumentException("Cannot query unknown URI " + uri);
         }
         return cursor;
     }
@@ -64,7 +67,15 @@ public class PetProvider extends ContentProvider {
     @Nullable
     @Override
     public Uri insert(@NonNull Uri uri, @Nullable ContentValues contentValues) {
-        return null;
+
+        final int match = sUriMatcher.match(uri);
+        switch (match) {
+            case PETS:
+                return insertPet(uri, contentValues);
+            default:
+                throw new IllegalArgumentException("Insertion is not supported for " + uri);
+        }
+
     }
 
     @Override
@@ -75,6 +86,24 @@ public class PetProvider extends ContentProvider {
     @Override
     public int update(@NonNull Uri uri, @Nullable ContentValues contentValues, @Nullable String s, @Nullable String[] strings) {
         return 0;
+    }
+
+    public Uri insertPet(Uri uri, ContentValues contentValues) {
+
+        SQLiteDatabase database = mDbHelper.getReadableDatabase();
+
+        long newRowId = database.insert(PetEntry.TABLE_NAME, null, contentValues);
+        Log.v("CatalogActivity", "New row ID= " + newRowId);
+
+        if (newRowId == -1) {
+            Toast toast = Toast.makeText(getContext(), getContext().getResources().getString(R.string.toast_db_insert_error), Toast.LENGTH_SHORT);
+            toast.show();
+        } else {
+            Toast toast = Toast.makeText(getContext(), getContext().getResources().getString(R.string.toast_db_insert_success) + newRowId, Toast.LENGTH_SHORT);
+            toast.show();
+        }
+
+        return ContentUris.withAppendedId(uri, newRowId);
     }
 
 }

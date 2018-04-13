@@ -95,24 +95,14 @@ public class EditorActivity extends AppCompatActivity {
     }
 
     private void insertPet() {
-        SQLiteDatabase db = mDbHelper.getReadableDatabase();
-        ContentValues values = new ContentValues();
+        ContentValues contentValues = new ContentValues();
 
-        values.put(PetEntry.COLUMN_PET_NAME, mNameEditText.getText().toString().trim());
-        values.put(PetEntry.COLUMN_PET_BREED, mBreedEditText.getText().toString().trim());
-        values.put(PetEntry.COLUMN_PET_GENDER, mGender);
-        values.put(PetEntry.COLUMN_PET_WEIGHT, Integer.parseInt(mWeightEditText.getText().toString()));
+        contentValues.put(PetEntry.COLUMN_PET_NAME, mNameEditText.getText().toString().trim());
+        contentValues.put(PetEntry.COLUMN_PET_BREED, mBreedEditText.getText().toString().trim());
+        contentValues.put(PetEntry.COLUMN_PET_GENDER, mGender);
+        contentValues.put(PetEntry.COLUMN_PET_WEIGHT, Integer.parseInt(mWeightEditText.getText().toString()));
 
-        long newRowId = db.insert(PetEntry.TABLE_NAME, null, values);
-        Log.v("CatalogActivity", "New row ID= " + newRowId);
-
-        if (newRowId == -1) {
-            Toast toast = Toast.makeText(this, "Error with saving pet in DB", Toast.LENGTH_SHORT);
-            toast.show();
-        } else {
-            Toast toast = Toast.makeText(this, "Pet saved with row id: " + newRowId, Toast.LENGTH_SHORT);
-            toast.show();
-        }
+        getContentResolver().insert(PetEntry.CONTENT_URI, contentValues);
 
     }
 
