@@ -17,6 +17,8 @@ import com.example.android.pets.data.PetContract.PetEntry;
 
 public class PetProvider extends ContentProvider {
 
+    public static final String LOG_TAG = PetProvider.class.getSimpleName();
+
     private static final int PETS = 100;
     private static final int PETS_ID = 101;
     private static final UriMatcher sUriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
@@ -93,14 +95,16 @@ public class PetProvider extends ContentProvider {
         SQLiteDatabase database = mDbHelper.getReadableDatabase();
 
         long newRowId = database.insert(PetEntry.TABLE_NAME, null, contentValues);
-        Log.v("CatalogActivity", "New row ID= " + newRowId);
+        Log.v(LOG_TAG, "New row ID= " + newRowId);
 
         if (newRowId == -1) {
             Toast toast = Toast.makeText(getContext(), getContext().getResources().getString(R.string.toast_db_insert_error), Toast.LENGTH_SHORT);
             toast.show();
+            Log.v(LOG_TAG, "Fail inserting new pet to DB");
         } else {
             Toast toast = Toast.makeText(getContext(), getContext().getResources().getString(R.string.toast_db_insert_success) + newRowId, Toast.LENGTH_SHORT);
             toast.show();
+            Log.v(LOG_TAG, "Success inserting new pet to DB");
         }
 
         return ContentUris.withAppendedId(uri, newRowId);
