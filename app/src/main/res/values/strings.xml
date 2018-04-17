@@ -65,4 +65,7 @@
     
     <string name="toast_db_insert_error">Error with saving pet in DB</string>
     <string name="toast_db_insert_success">Pet saved with row id: </string>
+
+    <string name="editor_activity_title_edit_pet">Edit Pet</string>
+    <string name="editor_activity_title_add_pet">Add a Pet</string>
 </resources>
