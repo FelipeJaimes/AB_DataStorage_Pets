@@ -31,7 +31,7 @@ public class PetCursorAdapter extends CursorAdapter {
         int breedColumnIndex = cursor.getColumnIndex(PetContract.PetEntry.COLUMN_PET_BREED);
 
         String petName = cursor.getString(nameColumnIndex);
-        String petBreed = cursor.getColumnName(breedColumnIndex);
+        String petBreed = cursor.getString(breedColumnIndex);
 
         nameTextView.setText(petName);
         summaryTextView.setText(petBreed);
