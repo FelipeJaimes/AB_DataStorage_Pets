@@ -76,21 +76,22 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
             invalidateOptionsMenu(); //This method calls the onPrepareOptionsMenu() method
         } else {
             setTitle(getString(R.string.editor_activity_title_edit_pet));
+            getLoaderManager().initLoader(EXISTING_PET_LOADER, null, this);
         }
-
-        mNameEditText.setOnTouchListener(mTouchListener);
-        mBreedEditText.setOnTouchListener(mTouchListener);
-        mWeightEditText.setOnTouchListener(mTouchListener);
-        mGenderSpinner.setOnTouchListener(mTouchListener);
 
         mNameEditText = (EditText) findViewById(R.id.edit_pet_name);
         mBreedEditText = (EditText) findViewById(R.id.edit_pet_breed);
         mWeightEditText = (EditText) findViewById(R.id.edit_pet_weight);
         mGenderSpinner = (Spinner) findViewById(R.id.spinner_gender);
 
+        mNameEditText.setOnTouchListener(mTouchListener);
+        mBreedEditText.setOnTouchListener(mTouchListener);
+        mWeightEditText.setOnTouchListener(mTouchListener);
+        mGenderSpinner.setOnTouchListener(mTouchListener);
+
         setupSpinner();
 
-        getLoaderManager().initLoader(EXISTING_PET_LOADER, null, this);
+
     }
 
     private void setupSpinner() {
